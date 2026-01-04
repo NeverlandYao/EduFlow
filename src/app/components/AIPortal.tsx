@@ -16,32 +16,36 @@ const agentTemplates = [
     name: '全能助教',
     description: '辅助备课、答疑',
     icon: GraduationCap,
-    color: 'text-indigo-600',
-    bgColor: 'bg-indigo-500/10'
+    color: 'from-indigo-500 to-violet-500',
+    iconColor: 'text-white',
+    bgGradient: 'bg-gradient-to-br from-indigo-50 to-violet-50 dark:from-indigo-950/30 dark:to-violet-950/30'
   },
   {
     id: 'exam-helper',
     name: '出题专家',
     description: '自动生成试题',
     icon: Code,
-    color: 'text-pink-600',
-    bgColor: 'bg-pink-500/10'
+    color: 'from-pink-500 to-rose-500',
+    iconColor: 'text-white',
+    bgGradient: 'bg-gradient-to-br from-pink-50 to-rose-50 dark:from-pink-950/30 dark:to-rose-950/30'
   },
   {
     id: 'language-tutor',
     name: '语言导师',
     description: '外语学习辅导',
     icon: Languages,
-    color: 'text-cyan-600',
-    bgColor: 'bg-cyan-500/10'
+    color: 'from-cyan-500 to-sky-500',
+    iconColor: 'text-white',
+    bgGradient: 'bg-gradient-to-br from-cyan-50 to-sky-50 dark:from-cyan-950/30 dark:to-sky-950/30'
   },
   {
     id: 'math-solver',
     name: '理科解题',
     description: '数理化步骤详解',
     icon: Calculator,
-    color: 'text-amber-600',
-    bgColor: 'bg-amber-500/10'
+    color: 'from-amber-500 to-yellow-500',
+    iconColor: 'text-white',
+    bgGradient: 'bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/30'
   },
 ];
 
@@ -134,7 +138,7 @@ export function AIPortal() {
                         : 'bg-card border-border/50 hover:bg-accent hover:border-border'
                     }`}
                   >
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${agent.bgColor} ${agent.color}`}>
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${agent.bgGradient} ${agent.color}`}>
                       <Icon className="w-5 h-5" />
                     </div>
                     <div>
@@ -186,8 +190,8 @@ export function AIPortal() {
         {/* Header */}
         <div className="h-16 flex items-center justify-between px-6 border-b border-border bg-card/50 backdrop-blur-sm z-10">
           <div className="flex items-center gap-4">
-            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${currentAgent.bgColor} ${currentAgent.color}`}>
-              <currentAgent.icon className="w-5 h-5" />
+            <div className={`w-8 h-8 rounded-lg flex items-center justify-center bg-gradient-to-br ${currentAgent.color}`}>
+              <currentAgent.icon className={`w-5 h-5 ${currentAgent.iconColor}`} />
             </div>
             <div>
               <h1 className="font-semibold text-lg flex items-center gap-2">

@@ -1,7 +1,8 @@
-import { FileCheck, GraduationCap, ChartBar, BookOpen, Plus, ArrowRight, Sparkles, Calendar } from 'lucide-react';
+import { FileCheck, GraduationCap, ChartBar, BookOpen, Plus, ArrowRight, Sparkles, Calendar, Clock, User } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const templates = [
   {
@@ -11,8 +12,12 @@ const templates = [
     icon: FileCheck,
     nodes: 4,
     popular: true,
-    color: 'bg-blue-500/10 text-blue-600',
+    color: 'from-blue-500 to-cyan-500',
+    iconColor: 'text-white',
+    bgGradient: 'bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950/30 dark:to-cyan-950/30',
     date: '2025-12-15',
+    author: '官方团队',
+    tags: ['自动化', '作业', '高频']
   },
   {
     id: 'exam-analysis',
@@ -21,8 +26,12 @@ const templates = [
     icon: GraduationCap,
     nodes: 4,
     popular: true,
-    color: 'bg-purple-500/10 text-purple-600',
+    color: 'from-purple-500 to-pink-500',
+    iconColor: 'text-white',
+    bgGradient: 'bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30',
     date: '2025-12-10',
+    author: '教研组',
+    tags: ['数据分析', '考试', '报告']
   },
   {
     id: 'practice-feedback',
@@ -31,18 +40,12 @@ const templates = [
     icon: ChartBar,
     nodes: 3,
     popular: false,
-    color: 'bg-green-500/10 text-green-600',
+    color: 'from-emerald-500 to-green-500',
+    iconColor: 'text-white',
+    bgGradient: 'bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-950/30 dark:to-green-950/30',
     date: '2025-11-28',
-  },
-  {
-    id: 'error-collection',
-    name: '错题本生成',
-    description: '智能识别错题并自动归类，生成个性化复习资料。',
-    icon: BookOpen,
-    nodes: 3,
-    popular: false,
-    color: 'bg-orange-500/10 text-orange-600',
-    date: '2025-11-20',
+    author: '数学组',
+    tags: ['即时反馈', '练习']
   },
 ];
 
@@ -56,21 +59,23 @@ export function WorkflowTemplates({ onSelectTemplate, onCreateFromScratch }: Wor
   const sortedTemplates = [...templates].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
-    <div className="flex-1 overflow-y-auto bg-secondary/30 p-8 flex flex-col items-center">
-      <div className="max-w-6xl w-full space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="flex-1 overflow-y-auto bg-background/50 p-8 flex flex-col items-center">
+      <div className="max-w-7xl w-full space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
         
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">工作流配置</h1>
-            <p className="text-muted-foreground mt-1">
-              选择一个预设模板快速开始，或创建全新的自动化流程
+        <div className="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-border/40 pb-6">
+          <div className="space-y-2">
+            <h1 className="text-4xl font-extrabold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600">
+              工作流配置
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-2xl">
+              选择一个预设模板快速开始，或创建全新的自动化流程。
             </p>
           </div>
           <Button 
             onClick={onCreateFromScratch} 
             size="lg" 
-            className="shadow-lg shadow-primary/20 hover:scale-105 transition-all"
+            className="shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-[1.02] transition-all bg-gradient-to-r from-primary to-purple-600 border-0 h-12 px-6 rounded-full font-medium"
           >
             <Plus className="mr-2 h-5 w-5" />
             新建空白流程
@@ -78,78 +83,91 @@ export function WorkflowTemplates({ onSelectTemplate, onCreateFromScratch }: Wor
         </div>
 
         {/* Templates Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {sortedTemplates.map((template) => {
             const Icon = template.icon;
             return (
-              <Card 
+              <div 
                 key={template.id}
-                className="group relative border-border/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 cursor-pointer overflow-hidden bg-card/50 backdrop-blur-sm flex flex-col"
+                className="group relative flex flex-col h-full bg-card rounded-3xl border border-border/50 shadow-sm hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300 overflow-hidden cursor-pointer"
                 onClick={() => onSelectTemplate(template.id)}
               >
-                {template.popular && (
-                  <div className="absolute top-0 right-0 p-4">
-                    <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20 gap-1">
-                      <Sparkles className="h-3 w-3" />
-                      推荐
-                    </Badge>
-                  </div>
-                )}
+                {/* Decorative Background Gradient */}
+                <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br ${template.color} opacity-[0.03] pointer-events-none`} />
                 
-                <CardHeader className="pb-2">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110 duration-300 ${template.color}`}>
-                    <Icon className="w-6 h-6" />
-                  </div>
-                  <CardTitle className="text-xl group-hover:text-primary transition-colors">
-                    {template.name}
-                  </CardTitle>
-                  <CardDescription className="line-clamp-2 h-10">
-                    {template.description}
-                  </CardDescription>
-                </CardHeader>
-                
-                <CardContent className="flex-1">
-                  <div className="flex items-center justify-between text-sm text-muted-foreground mt-2">
-                    <div className="flex items-center gap-2">
-                      <div className="flex -space-x-2">
-                        {[...Array(3)].map((_, i) => (
-                          <div key={i} className="w-6 h-6 rounded-full border-2 border-background bg-muted flex items-center justify-center text-[10px]">
-                            {i + 1}
-                          </div>
-                        ))}
-                      </div>
-                      <span>{template.nodes} 步骤</span>
-                    </div>
-                    <div className="flex items-center gap-1 text-xs">
-                       <Calendar className="w-3 h-3" />
-                       {template.date}
-                    </div>
-                  </div>
-                </CardContent>
+                {/* Top Image / Pattern Area */}
+                <div className={`h-32 w-full ${template.bgGradient} relative overflow-hidden`}>
+                   <div className="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-white/20 blur-2xl" />
+                   <div className="absolute -left-4 -bottom-4 w-32 h-32 rounded-full bg-white/20 blur-3xl" />
+                   
+                   <div className="absolute top-6 left-6">
+                     <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${template.color} flex items-center justify-center shadow-lg transform group-hover:rotate-6 transition-transform duration-300`}>
+                       <Icon className={`w-7 h-7 ${template.iconColor}`} />
+                     </div>
+                   </div>
 
-                <CardFooter className="pt-0 mt-auto">
-                  <Button variant="ghost" className="w-full justify-between group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
-                    使用此模板
-                    <ArrowRight className="w-4 h-4 -translate-x-2 group-hover:translate-x-0 transition-transform duration-300" />
+                   {template.popular && (
+                    <div className="absolute top-6 right-6">
+                      <Badge className="bg-white/90 text-primary dark:bg-black/60 backdrop-blur-md border-0 shadow-sm gap-1.5 px-3 py-1 text-xs font-semibold hover:bg-white">
+                        <Sparkles className="h-3 w-3 text-amber-500 fill-amber-500" />
+                        热门推荐
+                      </Badge>
+                    </div>
+                   )}
+                </div>
+
+                <div className="flex-1 p-6 flex flex-col">
+                  {/* Content */}
+                  <div className="mb-4">
+                    <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                      {template.name}
+                    </h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2">
+                      {template.description}
+                    </p>
+                  </div>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {template.tags.map(tag => (
+                      <span key={tag} className="px-2.5 py-1 rounded-md bg-secondary/50 text-secondary-foreground text-[10px] font-medium border border-border/50">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Footer Info */}
+                  <div className="mt-auto pt-6 border-t border-border/40 flex items-center justify-between text-sm text-muted-foreground">
+                    <div className="flex items-center gap-3">
+                       <Avatar className="w-6 h-6 border border-border">
+                         <AvatarFallback className="text-[10px] bg-primary/5 text-primary">
+                           {template.author[0]}
+                         </AvatarFallback>
+                       </Avatar>
+                       <span className="text-xs">{template.author}</span>
+                    </div>
+                    <div className="flex items-center gap-4 text-xs font-medium">
+                       <div className="flex items-center gap-1.5">
+                         <div className="flex -space-x-1.5">
+                            {[...Array(template.nodes)].map((_, i) => (
+                              <div key={i} className={`w-2 h-2 rounded-full bg-gradient-to-br ${template.color} ring-1 ring-background`} />
+                            ))}
+                         </div>
+                         <span>{template.nodes} 步骤</span>
+                       </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Hover Action Overlay (Subtle) */}
+                <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                  <Button size="sm" className={`rounded-full shadow-lg bg-gradient-to-r ${template.color} border-0 hover:opacity-90`}>
+                    立即使用 <ArrowRight className="ml-1 w-3 h-3" />
                   </Button>
-                </CardFooter>
-              </Card>
+                </div>
+              </div>
             );
           })}
-
-          {/* Create New Card (Visual Alternative) */}
-          <Card 
-            className="group border-dashed border-2 border-muted hover:border-primary hover:bg-primary/5 transition-all duration-300 cursor-pointer flex flex-col items-center justify-center gap-4 min-h-[300px]"
-            onClick={onCreateFromScratch}
-          >
-            <div className="w-16 h-16 rounded-full bg-muted group-hover:bg-primary group-hover:text-primary-foreground flex items-center justify-center transition-all duration-300 shadow-sm group-hover:shadow-lg group-hover:scale-110">
-              <Plus className="w-8 h-8 text-muted-foreground group-hover:text-primary-foreground transition-colors" />
-            </div>
-            <div className="text-center">
-              <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">新建空白流程</h3>
-              <p className="text-muted-foreground text-sm mt-1">从零开始设计您的工作流</p>
-            </div>
-          </Card>
         </div>
       </div>
     </div>

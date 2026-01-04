@@ -12,7 +12,7 @@ const templates = [
     nodes: 4,
     popular: true,
     color: 'bg-blue-500/10 text-blue-600',
-    date: '2024-03-15',
+    date: '2025-12-15',
   },
   {
     id: 'exam-analysis',
@@ -22,7 +22,7 @@ const templates = [
     nodes: 4,
     popular: true,
     color: 'bg-purple-500/10 text-purple-600',
-    date: '2024-03-10',
+    date: '2025-12-10',
   },
   {
     id: 'practice-feedback',
@@ -32,7 +32,7 @@ const templates = [
     nodes: 3,
     popular: false,
     color: 'bg-green-500/10 text-green-600',
-    date: '2024-02-28',
+    date: '2025-11-28',
   },
   {
     id: 'error-collection',
@@ -42,7 +42,7 @@ const templates = [
     nodes: 3,
     popular: false,
     color: 'bg-orange-500/10 text-orange-600',
-    date: '2024-02-20',
+    date: '2025-11-20',
   },
 ];
 

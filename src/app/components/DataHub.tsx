@@ -182,6 +182,7 @@ export function DataHub() {
   const [selectedAssignment, setSelectedAssignment] = useState('hw1');
   const [selectedClass, setSelectedClass] = useState('c1');
   const [selectedSubject, setSelectedSubject] = useState('math');
+  const [appliedSubject, setAppliedSubject] = useState('math');
   const [isFiltering, setIsFiltering] = useState(false);
   const [currentData, setCurrentData] = useState(dataSets.default);
 
@@ -192,21 +193,20 @@ export function DataHub() {
   const [drillDownKnowledge, setDrillDownKnowledge] = useState<string | null>(null);
 
   const handleFilter = () => {
-    setIsFiltering(true);
-    // Simulate loading and data change
-    setTimeout(() => {
-      // Simple logic to switch data based on assignment selection to demonstrate interactivity
-      if (selectedSubject === 'physics') {
-        setCurrentData(dataSets.physics);
-      } else if (selectedSubject === 'chem') {
-        setCurrentData(dataSets.chem);
-      } else if (selectedAssignment === 'hw2' || selectedClass === 'c2') {
-        setCurrentData(dataSets.alt);
-      } else {
-        setCurrentData(dataSets.default);
-      }
-      setIsFiltering(false);
-    }, 500);
+    // Update the applied subject when filter button is clicked
+    setAppliedSubject(selectedSubject);
+
+    // In a real app, this would fetch data based on filters.
+    // For this mock, we just switch data sets if physics is selected as an example.
+    if (selectedSubject === 'physics') {
+      setCurrentData(dataSets.physics);
+    } else if (selectedSubject === 'chem') {
+      setCurrentData(dataSets.physics); // Reuse physics data for chem mock
+    } else if (selectedClass === 'c2') {
+      setCurrentData(dataSets.alt);
+    } else {
+      setCurrentData(dataSets.default);
+    }
   };
 
   const handleBarClick = (data: any) => {
@@ -332,13 +332,23 @@ export function DataHub() {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col h-full overflow-hidden">
         {/* Top Header */}
-        <header className="h-16 flex items-center justify-between px-6 border-b border-border bg-card/50 backdrop-blur-sm flex-shrink-0">
-          <h1 className="text-xl font-semibold tracking-tight">学情仪表盘</h1>
+        <div className="flex items-center justify-between mb-8 shrink-0 px-6 pt-6">
+          <div>
+            <h2 className="text-3xl font-bold tracking-tight text-foreground flex items-center gap-3">
+              学情仪表盘
+              <Badge variant="outline" className="text-lg font-normal px-3 py-1 bg-primary/5 border-primary/20 text-primary">
+                {subjectList.find(s => s.id === appliedSubject)?.name || '数学'}
+              </Badge>
+            </h2>
+            <p className="text-muted-foreground mt-1">
+              实时监控班级学情数据，精准定位教学重难点
+            </p>
+          </div>
           <Button variant="outline" className="gap-2" onClick={() => setReportModalOpen(true)}>
             <FileText className="w-4 h-4" />
             生成分析报告
           </Button>
-        </header>
+        </div>
 
         {/* Dashboard Grid */}
         <div className="flex-1 overflow-y-auto">
@@ -487,7 +497,7 @@ export function DataHub() {
                       <Users className="w-4 h-4 text-blue-500" />
                       学生群体画像
                     </CardTitle>
-                    <CardDescription>左侧：掌握度/均衡度分布</CardDescription>
+                    <CardDescription>掌握度/均衡度分布</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="flex h-[350px] gap-4">

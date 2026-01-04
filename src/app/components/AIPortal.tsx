@@ -252,8 +252,8 @@ export function AIPortal() {
           
           {isTyping && (
             <div className="flex gap-4">
-              <Avatar className="w-8 h-8 md:w-10 md:h-10 bg-primary text-primary-foreground border">
-                <AvatarFallback><Bot className="w-5 h-5" /></AvatarFallback>
+              <Avatar className="w-8 h-8 md:w-10 md:h-10 bg-purple-50 text-purple-600 border border-purple-100">
+                <AvatarFallback><Sparkles className="w-5 h-5" /></AvatarFallback>
               </Avatar>
               <div className="flex items-center gap-1 h-10 px-4 bg-card rounded-2xl rounded-tl-none border shadow-sm">
                 <div className="w-2 h-2 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.3s]" />

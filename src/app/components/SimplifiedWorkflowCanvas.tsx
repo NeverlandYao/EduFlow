@@ -2,7 +2,8 @@ import { useState, useRef } from 'react';
 import { 
   Upload, ScanText, Sparkles, FileText, Play, Save, 
   Plus, ArrowRight, CircleCheck, CircleAlert, CircleHelp, X, ChevronRight, Loader2, ArrowLeft,
-  GraduationCap, BookOpen, ChartBar, Layout
+  GraduationCap, BookOpen, ChartBar, Layout,
+  ChevronsLeft, ChevronsRight, ZoomIn, ZoomOut, RotateCcw, Terminal, MousePointer2
 } from 'lucide-react';
 import { PropertyPanel } from './PropertyPanel';
 import { Card, CardContent } from './ui/card';

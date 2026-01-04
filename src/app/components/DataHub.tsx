@@ -87,6 +87,54 @@ const dataSets = {
       { date: '12月', avgScore: 76, knowledgeMastery: 72 },
       { date: '1月', avgScore: 77, knowledgeMastery: 73 },
     ]
+  },
+  physics: {
+    metrics: {
+      avgScore: 79.2,
+      avgScoreGrowth: 4.5,
+      masteryRate: 75,
+      masteryGrowth: 2.8,
+      studentCount: 45,
+      submitRate: 98
+    },
+    knowledgeError: [
+      { name: '牛顿第二定律', errorRate: 65, count: 42 },
+      { name: '动能定理', errorRate: 58, count: 36 },
+      { name: '万有引力', errorRate: 52, count: 30 },
+      { name: '机械能守恒', errorRate: 48, count: 25 },
+      { name: '电场强度', errorRate: 40, count: 20 },
+    ],
+    trend: [
+      { date: '9月', avgScore: 71, knowledgeMastery: 64 },
+      { date: '10月', avgScore: 73, knowledgeMastery: 68 },
+      { date: '11月', avgScore: 76, knowledgeMastery: 71 },
+      { date: '12月', avgScore: 78, knowledgeMastery: 74 },
+      { date: '1月', avgScore: 79, knowledgeMastery: 75 },
+    ]
+  },
+  chem: {
+    metrics: {
+      avgScore: 84.5,
+      avgScoreGrowth: 6.2,
+      masteryRate: 81,
+      masteryGrowth: 4.1,
+      studentCount: 45,
+      submitRate: 100
+    },
+    knowledgeError: [
+      { name: '氧化还原反应', errorRate: 55, count: 32 },
+      { name: '离子方程式', errorRate: 48, count: 28 },
+      { name: '化学平衡', errorRate: 42, count: 24 },
+      { name: '电化学基础', errorRate: 35, count: 18 },
+      { name: '有机合成', errorRate: 30, count: 15 },
+    ],
+    trend: [
+      { date: '9月', avgScore: 75, knowledgeMastery: 68 },
+      { date: '10月', avgScore: 78, knowledgeMastery: 72 },
+      { date: '11月', avgScore: 81, knowledgeMastery: 76 },
+      { date: '12月', avgScore: 83, knowledgeMastery: 79 },
+      { date: '1月', avgScore: 85, knowledgeMastery: 81 },
+    ]
   }
 };
 
@@ -148,7 +196,11 @@ export function DataHub() {
     // Simulate loading and data change
     setTimeout(() => {
       // Simple logic to switch data based on assignment selection to demonstrate interactivity
-      if (selectedAssignment === 'hw2' || selectedClass === 'c2') {
+      if (selectedSubject === 'physics') {
+        setCurrentData(dataSets.physics);
+      } else if (selectedSubject === 'chem') {
+        setCurrentData(dataSets.chem);
+      } else if (selectedAssignment === 'hw2' || selectedClass === 'c2') {
         setCurrentData(dataSets.alt);
       } else {
         setCurrentData(dataSets.default);
@@ -349,7 +401,7 @@ export function DataHub() {
                       <TriangleAlert className="w-4 h-4 text-orange-500" />
                       班级知识点错误率柱状图
                     </CardTitle>
-                    <CardDescription>点击柱条可下钻查看详细错题列表</CardDescription>
+                    <CardDescription>点击柱条查看详细错题列表</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="h-[350px] w-full">
@@ -435,7 +487,7 @@ export function DataHub() {
                       <Users className="w-4 h-4 text-blue-500" />
                       学生群体画像
                     </CardTitle>
-                    <CardDescription>左侧：掌握度/均衡度分布 | 右侧：学生分数排名</CardDescription>
+                    <CardDescription>左侧：掌握度/均衡度分布</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="flex h-[350px] gap-4">
@@ -469,6 +521,10 @@ export function DataHub() {
                       
                       {/* Right: Scrollable Student List */}
                       <div className="w-1/3 h-full border-l pl-4 flex flex-col overflow-hidden">
+                        <div className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2 shrink-0">
+                           <div className="w-1 h-4 bg-primary rounded-full"></div>
+                           学生分数排名
+                        </div>
                         <div className="text-xs font-medium text-muted-foreground mb-2 flex justify-between items-center shrink-0">
                           <span>排名 (分)</span>
                           <span className="text-[10px]">点击查看详情</span>

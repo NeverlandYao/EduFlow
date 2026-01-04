@@ -77,13 +77,7 @@ export function WorkbenchCanvas() {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col h-full overflow-hidden relative">
-        <div className="h-16 flex items-center px-8 border-b border-border bg-card/50 backdrop-blur-sm">
-          <h1 className="text-xl font-semibold tracking-tight">
-            {activeTab === 'workflow' ? '工作流配置' : '智能体配置'}
-          </h1>
-        </div>
-
-        <div className="flex-1 overflow-hidden relative">
+        <div className="flex-1 overflow-hidden relative flex flex-col">
           {activeTab === 'workflow' ? (
             !selectedTemplate ? (
               <WorkflowTemplates 

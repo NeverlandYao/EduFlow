@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Bot, Settings, Play, Save, Code, MessageSquare, Wrench, User, Plus, ArrowLeft, Share2, Copy, Check } from 'lucide-react';
+import { Bot, Settings, Play, Save, Code, MessageSquare, Wrench, User, Plus, ArrowLeft, Share2, Copy, Check, Rocket } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -18,13 +18,25 @@ export function AgentConfiguration({ initialData, onBack }: AgentConfigurationPr
   const [agentName, setAgentName] = useState('未命名智能体');
   const [agentDescription, setAgentDescription] = useState('');
   const [prompt, setPrompt] = useState('');
-  const [previewMessages, setPreviewMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([
+  const [previewMessages, setPreviewMessages] = useState<{role: 'user' | 'assistant' | 'system', content: string}[]>([
     { role: 'assistant', content: '你好！我是你配置的智能体。请问有什么可以帮你的？' }
   ]);
   const [previewInput, setPreviewInput] = useState('');
   const [showPublishDialog, setShowPublishDialog] = useState(false);
   const [publishLink, setPublishLink] = useState('');
   const [copied, setCopied] = useState(false);
+
+  // Track prompt changes to show notification
+  useEffect(() => {
+    if (prompt && initialData && prompt !== initialData.prompt) {
+       // Debounce or just show on blur? For simplicity, we can show it when user stops typing for a bit or on blur.
+       // Here we'll rely on the textarea's onBlur event to trigger a "system" message in the preview.
+    }
+  }, [prompt]);
+
+  const handlePromptBlur = () => {
+      setPreviewMessages(prev => [...prev, { role: 'system', content: '系统：配置已更新，智能体将应用新的人设与逻辑。' }]);
+  };
 
   useEffect(() => {
     if (initialData) {
@@ -85,7 +97,7 @@ export function AgentConfiguration({ initialData, onBack }: AgentConfigurationPr
             保存草稿
           </Button>
           <Button className="gap-2 bg-purple-600 hover:bg-purple-700" onClick={handlePublish}>
-            <Play className="w-4 h-4" />
+            <Rocket className="w-4 h-4" />
             发布
           </Button>
         </div>
@@ -106,6 +118,7 @@ export function AgentConfiguration({ initialData, onBack }: AgentConfigurationPr
                   className="min-h-[300px] resize-none font-mono text-sm"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
+                  onBlur={handlePromptBlur}
                 />
                 <p className="text-xs text-muted-foreground">
                   提示：清晰地描述智能体的角色、目标和限制条件。
@@ -134,17 +147,20 @@ export function AgentConfiguration({ initialData, onBack }: AgentConfigurationPr
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-medium flex items-center gap-2">
                     <Wrench className="w-4 h-4 text-orange-500" />
-                    插件与工具
+                    智能体能力 (插件)
                   </h3>
                   <Button variant="ghost" size="sm" className="h-6 w-6 p-0 rounded-full">
                     <PlusIcon className="w-4 h-4" />
                   </Button>
                 </div>
+                <p className="text-xs text-muted-foreground mb-2">
+                  让智能体拥有联网搜索、画图等额外能力。
+                </p>
                 
                 <Card className="border-dashed border-2 shadow-none bg-transparent hover:bg-accent/50 cursor-pointer transition-colors">
                   <CardContent className="p-4 flex flex-col items-center justify-center text-muted-foreground py-8">
                     <Code className="w-8 h-8 mb-2 opacity-50" />
-                    <span className="text-sm">添加插件</span>
+                    <span className="text-sm">添加能力</span>
                   </CardContent>
                 </Card>
 
@@ -167,14 +183,17 @@ export function AgentConfiguration({ initialData, onBack }: AgentConfigurationPr
                  <div className="flex items-center justify-between">
                   <h3 className="text-sm font-medium flex items-center gap-2">
                     <DatabaseIcon className="w-4 h-4 text-green-500" />
-                    知识库
+                    学习资料 (知识库)
                   </h3>
                   <Button variant="ghost" size="sm" className="h-6 w-6 p-0 rounded-full">
                     <PlusIcon className="w-4 h-4" />
                   </Button>
                 </div>
+                <p className="text-xs text-muted-foreground mb-2">
+                  上传课本或教案，让智能体基于这些内容回答。
+                </p>
                 <div className="text-center p-8 border border-border rounded-lg bg-background/50">
-                  <p className="text-sm text-muted-foreground">暂无关联知识库</p>
+                  <p className="text-sm text-muted-foreground">暂无关联资料</p>
                 </div>
               </div>
             </div>

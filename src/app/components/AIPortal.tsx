@@ -38,15 +38,6 @@ const agentTemplates = [
     iconColor: 'text-white',
     bgGradient: 'bg-gradient-to-br from-cyan-50 to-sky-50 dark:from-cyan-950/30 dark:to-sky-950/30'
   },
-  {
-    id: 'math-solver',
-    name: '理科解题',
-    description: '数理化步骤详解',
-    icon: Calculator,
-    color: 'from-amber-500 to-yellow-500',
-    iconColor: 'text-white',
-    bgGradient: 'bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/30'
-  },
 ];
 
 interface Message {
